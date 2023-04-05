@@ -2,86 +2,66 @@ import 'package:flutter/material.dart';
 import 'candidate.dart';
 
 class VoteScreen extends StatelessWidget {
-  final Candidate candidate;
-
-  VoteScreen({required this.candidate});
+  const VoteScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Vote'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            CircleAvatar(
-              radius: 60.0,
-              backgroundImage: AssetImage('images/${candidate.image}'),
-            ),
-            SizedBox(height: 30.0),
-            Text(
-              candidate.name,
-              style: TextStyle(fontSize: 24.0),
-            ),
-            SizedBox(height: 10.0),
-            ElevatedButton(
-              onPressed: () {
-                // Logika untuk melakukan vote pada kandidat yang dipilih
-              },
-              child: Text('Vote'),
-            ),
-          ],
+        appBar: AppBar(
+          title: const Text('Vote'),
         ),
-      ),
-    );
+        body: ListView.builder(
+          itemCount: candidates.length,
+          itemBuilder: (BuildContext context, int index) {
+            final candidate = candidates[index];
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Padding(padding: EdgeInsets.all(16.0)),
+                CircleAvatar(
+                  radius: 60.0,
+                  backgroundImage: AssetImage('images/${candidate.image}'),
+                  backgroundColor: Colors.grey[300],
+                ),
+                const SizedBox(height: 30.0),
+                Text(
+                  candidate.name,
+                  style: const TextStyle(
+                      fontSize: 24.0, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10.0),
+                ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text("Konfirmasi"),
+                          content: Text(
+                              "Apakah Anda yakin ingin memilih ${candidate.name}?"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text("Batal"),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text("Vote"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: const Text('Vote'),
+                ),
+              ],
+            );
+          },
+        ));
   }
 }
-
-
-
-// class VoteScreen extends StatelessWidget {
-//   final Candidate candidate;
-
-//   VoteScreen({required this.candidate});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Vote Candidate'),
-//       ),
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: <Widget>[
-//             CircleAvatar(
-//               radius: 60.0,
-//               backgroundImage: AssetImage('images/${candidate.image}'),
-//             ),
-//             SizedBox(height: 30.0),
-//             Text(
-//               candidate.name,
-//               style: TextStyle(fontSize: 24.0),
-//             ),
-//             SizedBox(height: 10.0),
-//             Text(
-//               candidate.visi,
-//               textAlign: TextAlign.center,
-//               style: TextStyle(fontSize: 16.0),
-//             ),
-//             SizedBox(height: 30.0),
-//             ElevatedButton(
-//               onPressed: () {
-//                 // Logika untuk melakukan vote pada kandidat yang dipilih
-//               },
-//               child: Text('Vote'),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-

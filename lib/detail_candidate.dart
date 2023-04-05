@@ -4,7 +4,7 @@ import 'candidate.dart';
 class DetailCandidateScreen extends StatelessWidget {
   final Candidate candidate;
 
-  DetailCandidateScreen({required this.candidate});
+  const DetailCandidateScreen({super.key, required this.candidate});
 
   @override
   Widget build(BuildContext context) {
@@ -20,16 +20,16 @@ class DetailCandidateScreen extends StatelessWidget {
               radius: 60.0,
               backgroundImage: AssetImage('images/${candidate.image}'),
             ),
-            SizedBox(height: 30.0),
+            const SizedBox(height: 30.0),
             Text(
               candidate.name,
-              style: TextStyle(fontSize: 24.0),
+              style: const TextStyle(fontSize: 24.0),
             ),
-            SizedBox(height: 10.0),
+            const SizedBox(height: 10.0),
             Text(
               candidate.visi,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16.0),
+              style: const TextStyle(fontSize: 16.0),
             ),
           ],
         ),
