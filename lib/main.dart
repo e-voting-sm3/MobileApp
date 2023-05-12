@@ -1,27 +1,30 @@
+import 'ListCandidate.dart';
+import 'VoteScreen.dart';
+import 'voting.dart';
 import 'package:flutter/material.dart';
-import 'candidate.dart';
-import 'list_candidate.dart';
-import 'vote_screen.dart';
-import 'home_screen.dart';
+import 'homeView.dart';
+import 'splashScreen.dart';
 
-void main() => runApp(const EvotingApp());
+void main() {
+  runApp(const MyApp());
+}
 
-class EvotingApp extends StatelessWidget {
-  const EvotingApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Evoting App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        fontFamily: 'Ananda',
       ),
-      initialRoute: '/',
       routes: {
-        '/': (context) => HomeScreen(),
-        '/list_candidate': (context) => ListCandidateScreen(),
-        '/vote': (context) => VoteScreen(),
+        "/": (context) => SplashScreen(),
+        "/myHome": (context) => MyHome(),
+        "/list_candidate": (context) => ListCandidate(),
+        "/vote": (context) => VoteScreen(),
       },
     );
   }
