@@ -1,5 +1,7 @@
+import 'package:list_tile/LoginView.dart';
 import 'homeView.dart';
 import 'package:flutter/material.dart';
+import 'LoginView.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -94,7 +96,7 @@ class SplashScreen extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => MyHome()));
+                                  builder: (context) => LoginScreen()));
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(

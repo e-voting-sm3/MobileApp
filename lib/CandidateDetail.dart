@@ -16,48 +16,20 @@ class DetailCandidateScreen extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        // Container(
-        //   decoration: BoxDecoration(
-        //     gradient: LinearGradient(
-        //       colors: [
-        //         Color(0xFFBA68C8),
-        //         Color(0xff5E64FD),
-        //       ],
-        //       begin: FractionalOffset.bottomCenter,
-        //       end: FractionalOffset.topCenter,
-        //     ),
-        //   ),
-        // ),
         Scaffold(
           appBar: AppBar(
             backgroundColor: Color(0xff5E64FD),
-            title: Text(candidate.name),
+            title: Text('Candidate'),
             centerTitle: true,
           ),
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 30),
               child: Column(children: [
-                // SizedBox(
-                //   height: 20,
-                // ),
-                // Padding(
-                //   padding: EdgeInsets.only(bottom: 5),
-                //   child: Text(
-                //     'Visi dan Misi',
-                //     style: TextStyle(
-                //       color: Colors.white.withOpacity(0.9),
-                //       fontSize: 28,
-                //       fontWeight: FontWeight.bold,
-                //       letterSpacing: 1,
-                //     ),
-                //   ),
-                // ),
                 SizedBox(
                   height: 20,
                 ),
                 Container(
-                 
                   height: height * 0.3,
                   child: LayoutBuilder(
                     builder: (context, constraints) {
@@ -73,10 +45,6 @@ class DetailCandidateScreen extends StatelessWidget {
                             child: Container(
                               height: innerHeight * 0.50,
                               width: innerWitdh,
-                              // decoration: BoxDecoration(
-                              //   borderRadius: BorderRadius.circular(25),
-                              //    color: Color(0xff5E64FD),
-                              // ),
                               child: Column(children: [
                                 SizedBox(
                                   height: 50,
@@ -118,8 +86,9 @@ class DetailCandidateScreen extends StatelessWidget {
                   height: height * 0.3,
                   width: width,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                       color: Color(0xff5E64FD),),
+                    borderRadius: BorderRadius.circular(25),
+                    color: Color(0xff5E64FD),
+                  ),
                   child: Column(
                     children: [
                       ListTile(
@@ -127,18 +96,13 @@ class DetailCandidateScreen extends StatelessWidget {
                           'Visi dan Misi',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 20,
-                           color: Colors.white,
-                           fontWeight: FontWeight.bold
-                          ),
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
                         ),
-                        
                         subtitle: Text(
                           candidate.visi,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15
-                          ),
+                          style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
                       )
                     ],
