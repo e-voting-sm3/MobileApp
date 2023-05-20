@@ -74,6 +74,7 @@ class VoteScreen extends StatelessWidget {
                             primary: Colors.red,
                           ),
                           onPressed: () async {
+                            // ignore: use_build_context_synchronously
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -127,43 +128,21 @@ class VoteScreen extends StatelessWidget {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
 
-    if (token == null) {
-      // Token tidak tersedia, tidak dapat melanjutkan pemilihan
-      showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-          return AlertDialog(
-            title: const Text("Vote Failed"),
-            content: Text("Gagal memilih. Silakan login kembali."),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(dialogContext).pop();
-                },
-                child: const Text("OK"),
-              ),
-            ],
-          );
-        },
-      );
-      return;
-    }
-
     Map<String, String> headers = {
       'Authorization': 'Bearer $token',
       'Content-Type': 'application/json',
     };
 
-    var userResponse = await http.post(
+    var userResponse = await http.get(
       Uri.parse('http://localhost:8000/api/auth/me'),
       headers: headers,
     );
 
-    print(userResponse.statusCode);
     if (userResponse.statusCode == 200) {
       final userData = jsonDecode(userResponse.body);
       final dataUser = userData['data'];
-      int userId = dataUser['id'];
+      String userId = dataUser['id'];
+
 
       var response = await http.post(
         Uri.parse('http://localhost:8000/api/auth/votes'),
