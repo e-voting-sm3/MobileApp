@@ -144,69 +144,145 @@ class VoteScreen extends StatelessWidget {
       var userData = json.decode(userResponse.body);
       int userId = userData['id'];
 
-      // String? token = prefs.getString('token');
       Map<String, String> headers = {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',
       };
-      http
-          .post(
+
+      http.Response voteResponse = await http.post(
         Uri.parse('http://localhost:8000/api/auth/votes'),
         headers: headers,
         body: json.encode({
-          'candidate_id': candidateId,
-          'user_id': userId,
+          'voter_id': userId.toString(),
+          'candidate_id': candidateId.toString(),
         }),
-      )
-          .then((voteResponse) {
-        if (voteResponse.statusCode == 200) {
-          // Berhasil memilih
-          showDialog(
-            context: context,
-            builder: (BuildContext dialogContext) {
-              return AlertDialog(
-                title: const Text("Vote Successful"),
-                content: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("Nama: ${userData['name']}"),
-                    Text("Email: ${userData['email']}"),
-                  ],
+      );
+
+      var candidateData = json.decode(voteResponse.body);
+      final message = candidateData['message'];
+      if (message == 'Vote submitted successfully') {
+        // Berhasil memilih
+        await showDialog(
+          context: context,
+          builder: (BuildContext dialogContext) {
+            return AlertDialog(
+              title: const Text("Vote Successful"),
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text("Nama: ${userData['name']}"),
+                  Text("Email: ${userData['email']}"),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                    // Lakukan navigasi ke layar lain jika diperlukan
+                  },
+                  child: const Text("OK"),
                 ),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(dialogContext).pop();
-                      // Lakukan navigasi ke layar lain jika diperlukan
-                    },
-                    child: const Text("OK"),
-                  ),
-                ],
-              );
-            },
-          );
-        } else {
-          // Gagal memilih
-          showDialog(
-            context: context,
-            builder: (BuildContext dialogContext) {
-              return AlertDialog(
-                title: const Text("Vote Failed"),
-                content: Text("Gagal memilih. Silakan coba lagi."),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(dialogContext).pop();
-                    },
-                    child: const Text("OK"),
-                  ),
-                ],
-              );
-            },
-          );
-        }
-      });
+              ],
+            );
+          },
+        );
+      } else if (message == 'You have already voted') {
+        // sudah memilih
+        await showDialog(
+          context: context,
+          builder: (BuildContext dialogContext) {
+            return AlertDialog(
+              title: const Text("Vote Failed"),
+              content: Text(candidateData['message']),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                  },
+                  child: const Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
+      } else if (message == 'Candidate not found') {
+        // sudah memilih
+        await showDialog(
+          context: context,
+          builder: (BuildContext dialogContext) {
+            return AlertDialog(
+              title: const Text("Vote Failed"),
+              content: Text(candidateData['message']),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                  },
+                  child: const Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
+      } else if (message == 'Belum saatnya pemilihan dimulai.') {
+        // sudah memilih
+        await showDialog(
+          context: context,
+          builder: (BuildContext dialogContext) {
+            return AlertDialog(
+              title: const Text("Vote Failed"),
+              content: Text(candidateData['message']),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                  },
+                  child: const Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
+      } else if (message == 'Maaf, waktu pemilihan sudah berakhir.') {
+        // sudah memilih
+        await showDialog(
+          context: context,
+          builder: (BuildContext dialogContext) {
+            return AlertDialog(
+              title: const Text("Vote Failed"),
+              content: Text(candidateData['message']),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                  },
+                  child: const Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        // Gagal memilih
+        await showDialog(
+          context: context,
+          builder: (BuildContext dialogContext) {
+            return AlertDialog(
+              title: const Text("Vote Failed"),
+              content: Text(candidateData['message']),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                  },
+                  child: const Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
+      }
     } else {
       // Gagal mendapatkan data pengguna
       showDialog(
