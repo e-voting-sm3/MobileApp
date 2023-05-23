@@ -90,8 +90,9 @@ class VoteScreen extends StatelessWidget {
                                       child: const Text("Batal"),
                                     ),
                                     TextButton(
-                                      onPressed: () {
-                                        voteCandidate(context, candidate.id); //
+                                      onPressed: () async {
+                                        await voteCandidate(context,
+                                            int.parse(candidate.id)); //
                                         Navigator.of(context).pop();
                                       },
                                       child: const Text("Vote"),
@@ -124,7 +125,7 @@ class VoteScreen extends StatelessWidget {
     );
   }
 
-  Future<void> voteCandidate(BuildContext context, String candidateId) async {
+  Future<void> voteCandidate(BuildContext context, int candidateId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
 
@@ -133,34 +134,47 @@ class VoteScreen extends StatelessWidget {
       'Content-Type': 'application/json',
     };
 
-    var userResponse = await http.get(
+    http.Response userResponse = await http.get(
       Uri.parse('http://localhost:8000/api/auth/me'),
       headers: headers,
     );
 
     if (userResponse.statusCode == 200) {
-      final userData = jsonDecode(userResponse.body);
-      final dataUser = userData['data'];
-      String userId = dataUser['id'];
+      // Berhasil mendapatkan data pengguna
+      var userData = json.decode(userResponse.body);
+      int userId = userData['id'];
 
+      Map<String, String> headers = {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      };
 
-      var response = await http.post(
+      http.Response voteResponse = await http.post(
         Uri.parse('http://localhost:8000/api/auth/votes'),
-        body: jsonEncode({
-          'voter_id': userId,
-          'candidate_id': candidateId,
-        }),
         headers: headers,
+        body: json.encode({
+          'voter_id': userId.toString(),
+          'candidate_id': candidateId.toString(),
+        }),
       );
 
-      if (response.statusCode == 200) {
+      var candidateData = json.decode(voteResponse.body);
+      final message = candidateData['message'];
+      if (message == 'Vote submitted successfully') {
         // Berhasil memilih
-        showDialog(
+        await showDialog(
           context: context,
           builder: (BuildContext dialogContext) {
             return AlertDialog(
               title: const Text("Vote Successful"),
-              content: const Text("Anda telah berhasil memilih kandidat."),
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text("Nama: ${userData['name']}"),
+                  Text("Email: ${userData['email']}"),
+                ],
+              ),
               actions: [
                 TextButton(
                   onPressed: () {
@@ -173,14 +187,90 @@ class VoteScreen extends StatelessWidget {
             );
           },
         );
-      } else {
-        // Gagal memilih
-        showDialog(
+      } else if (message == 'You have already voted') {
+        // sudah memilih
+        await showDialog(
           context: context,
           builder: (BuildContext dialogContext) {
             return AlertDialog(
               title: const Text("Vote Failed"),
-              content: Text("Gagal memilih. Silakan coba lagi."),
+              content: Text(candidateData['message']),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                  },
+                  child: const Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
+      } else if (message == 'Candidate not found') {
+        // sudah memilih
+        await showDialog(
+          context: context,
+          builder: (BuildContext dialogContext) {
+            return AlertDialog(
+              title: const Text("Vote Failed"),
+              content: Text(candidateData['message']),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                  },
+                  child: const Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
+      } else if (message == 'Belum saatnya pemilihan dimulai.') {
+        // sudah memilih
+        await showDialog(
+          context: context,
+          builder: (BuildContext dialogContext) {
+            return AlertDialog(
+              title: const Text("Vote Failed"),
+              content: Text(candidateData['message']),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                  },
+                  child: const Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
+      } else if (message == 'Maaf, waktu pemilihan sudah berakhir.') {
+        // sudah memilih
+        await showDialog(
+          context: context,
+          builder: (BuildContext dialogContext) {
+            return AlertDialog(
+              title: const Text("Vote Failed"),
+              content: Text(candidateData['message']),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                  },
+                  child: const Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        // Gagal memilih
+        await showDialog(
+          context: context,
+          builder: (BuildContext dialogContext) {
+            return AlertDialog(
+              title: const Text("Vote Failed"),
+              content: Text(candidateData['message']),
               actions: [
                 TextButton(
                   onPressed: () {

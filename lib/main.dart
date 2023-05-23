@@ -1,5 +1,6 @@
 import 'package:list_tile/LoginView.dart';
 import 'package:list_tile/RegisterView.dart';
+import 'package:list_tile/result.dart';
 import 'ListCandidate.dart';
 import 'VoteScreen.dart';
 import 'voting.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         "/vote": (context) => VoteScreen(),
         "/login": (context) => LoginScreen(),
         "/register": (context) => RegisterScreen(),
+        "/result": (context) => VotingResultPage()
       },
     );
   }
