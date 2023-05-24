@@ -1,6 +1,7 @@
 import 'candidate.dart';
 import 'package:flutter/material.dart';
 import 'CandidateDetail.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ListCandidate extends StatefulWidget {
   const ListCandidate({Key? key}) : super(key: key);
@@ -62,7 +63,9 @@ class _ListCandidateState extends State<ListCandidate> {
                     ),
                     trailing: Icon(Icons.arrow_forward_ios),
                     leading: CircleAvatar(
-                      backgroundImage: AssetImage('images/${candidate.image}'),
+                      backgroundImage: CachedNetworkImageProvider(
+                        'http://127.0.0.1:8000/storage/image/${candidate.image}',
+                      ),
                     ),
                     onTap: () {
                       Navigator.push(
