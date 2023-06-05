@@ -29,7 +29,7 @@ class _VotingResultPageState extends State<VotingResultPage> {
   Future<void> fetchData() async {
     try {
       final response = await http.get(
-        Uri.parse('http://localhost:8000/api/auth/votes'),
+        Uri.parse('http://voting.surabayawebtech.com/api/auth/votes'),
         headers: {'Authorization': 'Bearer $token'},
       );
       final responseData = json.decode(response.body);

@@ -2,6 +2,7 @@ import 'package:list_tile/LoginView.dart';
 import 'package:list_tile/RegisterView.dart';
 import 'package:list_tile/result.dart';
 import 'ListCandidate.dart';
+// import 'Screens/Welcome/welcome_screen.dart';
 import 'VoteScreen.dart';
 import 'voting.dart';
 import 'package:flutter/material.dart';
@@ -26,10 +27,12 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Ananda',
       ),
       routes: {
+        // "/": (context) => WelcomeScreen(),
         "/": (context) => SplashScreen(),
         "/myHome": (context) => MyHome(),
         "/list_candidate": (context) => ListCandidate(),
         "/vote": (context) => VoteScreen(),
+        // "/welcome": (context) => WelcomeScreen(),
         "/login": (context) => LoginScreen(),
         "/register": (context) => RegisterScreen(),
         "/result": (context) => VotingResultPage()

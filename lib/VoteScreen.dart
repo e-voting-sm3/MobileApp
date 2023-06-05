@@ -3,6 +3,7 @@ import 'candidate.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class VoteScreen extends StatelessWidget {
   const VoteScreen({Key? key});
@@ -47,8 +48,9 @@ class VoteScreen extends StatelessWidget {
                         const Padding(padding: EdgeInsets.only(top: 15)),
                         CircleAvatar(
                           radius: 50.0,
-                          backgroundImage:
-                              AssetImage('images/${candidate.image}'),
+                          backgroundImage: CachedNetworkImageProvider(
+                            'http://voting.surabayawebtech.com/storage/image/${candidate.image}',
+                          ),
                           backgroundColor: Colors.black,
                         ),
                         const SizedBox(height: 18),
@@ -135,7 +137,7 @@ class VoteScreen extends StatelessWidget {
     };
 
     http.Response userResponse = await http.get(
-      Uri.parse('http://localhost:8000/api/auth/me'),
+      Uri.parse('http://voting.surabayawebtech.com/api/auth/me'),
       headers: headers,
     );
 
@@ -150,7 +152,7 @@ class VoteScreen extends StatelessWidget {
       };
 
       http.Response voteResponse = await http.post(
-        Uri.parse('http://localhost:8000/api/auth/votes'),
+        Uri.parse('http://voting.surabayawebtech.com/api/auth/votes'),
         headers: headers,
         body: json.encode({
           'voter_id': userId.toString(),

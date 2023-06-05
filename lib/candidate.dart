@@ -23,7 +23,7 @@ Future<List<Candidate>> fetchCandidates() async {
   };
 
   final response = await http.get(
-    Uri.parse('http://localhost:8000/api/auth/candidates'),
+    Uri.parse('http://voting.surabayawebtech.com/api/auth/candidates'),
     headers: headers,
   );
 
