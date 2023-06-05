@@ -65,7 +65,7 @@ class RegisterScreen extends StatelessWidget {
     };
 
     var response = await http.post(
-      Uri.parse('http://localhost:8000/api/auth/register'),
+      Uri.parse('http://voting.surabayawebtech.com/api/auth/register'),
       body: json.encode(body),
       headers: {'Content-Type': 'application/json'},
     );

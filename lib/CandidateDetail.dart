@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'candidate.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class DetailCandidateScreen extends StatelessWidget {
   const DetailCandidateScreen({
@@ -67,8 +68,9 @@ class DetailCandidateScreen extends StatelessWidget {
                             right: 0,
                             child: Center(
                               child: Container(
-                                  child: Image.asset(
-                                'assets/images/profile.png',
+                                  child: CachedNetworkImage(
+                                imageUrl:
+                                    'http://voting.surabayawebtech.com/storage/image/${candidate.image}',
                                 width: innerHeight * 0.7,
                                 fit: BoxFit.fitWidth,
                               )),

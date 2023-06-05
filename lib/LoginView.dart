@@ -111,7 +111,7 @@ class LoginScreen extends StatelessWidget {
     var body = {'email': email, 'password': password};
 
     var response = await http.post(
-      Uri.parse('http://localhost:8000/api/auth/login'),
+      Uri.parse('http://voting.surabayawebtech.com/api/auth/login'),
       body: json.encode(body),
       headers: {'Content-Type': 'application/json'},
     );
@@ -121,7 +121,7 @@ class LoginScreen extends StatelessWidget {
       var token = data['access_token'];
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('token', token);
+      await prefs.setString('token', token);
 
       Navigator.pushNamed(context, '/myHome');
       return token;

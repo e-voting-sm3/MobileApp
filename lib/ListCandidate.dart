@@ -27,7 +27,7 @@ class _ListCandidateState extends State<ListCandidate> {
         backgroundColor: Color(0xff5E64FD),
         elevation: 0,
         toolbarHeight: 70,
-        title: const Text(' Candidate'),
+        title: const Text('Candidate'),
         centerTitle: true,
       ),
       body: FutureBuilder<List<Candidate>>(
@@ -64,7 +64,7 @@ class _ListCandidateState extends State<ListCandidate> {
                     trailing: Icon(Icons.arrow_forward_ios),
                     leading: CircleAvatar(
                       backgroundImage: CachedNetworkImageProvider(
-                        'http://127.0.0.1:8000/storage/image/${candidate.image}',
+                        'http://voting.surabayawebtech.com/storage/image/${candidate.image}',
                       ),
                     ),
                     onTap: () {
@@ -76,8 +76,11 @@ class _ListCandidateState extends State<ListCandidate> {
                         ),
                       );
                     },
-                    iconColor: Colors.black,
-                    textColor: Colors.black,
+                    tileColor: Colors.white,
+                    focusColor: Colors.white,
+                    hoverColor: Colors.white,
+                    selectedTileColor: Colors.white,
+                    selected: true,
                   ),
                 );
               },
