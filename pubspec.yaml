@@ -2,7 +2,7 @@ name: list_tile
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.19.3 <3.0.0'
+  sdk: ">=2.19.3 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -32,7 +32,6 @@ dependencies:
     sdk: flutter
   shared_preferences: ^2.0.12
   cached_network_image: ^3.2.0
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -56,7 +55,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -64,12 +62,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/register.jpg 
-    - assets/images/login.jpg 
-    - assets/images/login_bottom.png 
-    - assets/images/main_bottom.png 
-    - assets/images/main_top.png 
-    - assets/images/signup_top.png 
+    - assets/images/signup.jpg
+    - assets/images/login2.jpg
     - assets/images/person1.png
     - assets/images/person2.png
     - assets/images/person3.png
@@ -77,7 +71,6 @@ flutter:
     - assets/images/candidate1.jpg
     - assets/images/splash.png
     - assets/images/profile.png
-    - assets/images/register.png
 
   #   - images/a_dot_ham.jpeg
 

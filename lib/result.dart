@@ -71,8 +71,10 @@ class _VotingResultPageState extends State<VotingResultPage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Hasil Voting'),
-        ),
+            backgroundColor: Color(0xff5E64FD),
+            title: Text('Hasil Voting'),
+            centerTitle: true,
+          ),
         body: Column(
           children: [
             Flexible(child: resultCircular(), flex: 1),

@@ -11,9 +11,10 @@ class VoteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+     appBar: AppBar(
         backgroundColor: Color(0xff5E64FD),
-        title: const Text('Vote'),
+        title: Text('Vote'),
+        centerTitle: true,
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -40,7 +41,7 @@ class VoteScreen extends StatelessWidget {
                     color: Colors.grey[100],
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(
-                        Radius.circular(30),
+                        Radius.circular(5),
                       ),
                     ),
                     child: Column(
