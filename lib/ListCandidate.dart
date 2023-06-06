@@ -1,3 +1,5 @@
+import 'package:list_tile/constansts.dart';
+
 import 'candidate.dart';
 import 'package:flutter/material.dart';
 import 'CandidateDetail.dart';
@@ -25,9 +27,7 @@ class _ListCandidateState extends State<ListCandidate> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Color(0xff5E64FD),
-        elevation: 0,
-        toolbarHeight: 70,
-        title: const Text('Candidate'),
+        title: Text('List Candidate'),
         centerTitle: true,
       ),
       body: FutureBuilder<List<Candidate>>(
@@ -55,16 +55,30 @@ class _ListCandidateState extends State<ListCandidate> {
                   padding: EdgeInsets.all(10),
                   margin: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                   child: ListTile(
-                    title: Text(candidate.name),
+                    title: Text(
+                      candidate.name,
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold),
+                    ),
                     subtitle: Text(
                       candidate.visi,
-                      maxLines: 1,
+                      maxLines: 3,
                       overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 14, color: Color(0xDD696969)),
                     ),
-                    trailing: Icon(Icons.arrow_forward_ios),
-                    leading: CircleAvatar(
-                      backgroundImage: CachedNetworkImageProvider(
-                        'http://voting.surabayawebtech.com/storage/image/${candidate.image}',
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      color: kPrimaryLightColor,
+                    ),
+                    leading: Container(
+                      width: 80,
+                      height: 80,
+                      child: CircleAvatar(
+                        backgroundImage: CachedNetworkImageProvider(
+                          'http://voting.surabayawebtech.com/storage/image/${candidate.image}',
+                        ),
                       ),
                     ),
                     onTap: () {
