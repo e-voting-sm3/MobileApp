@@ -70,7 +70,7 @@ class DetailCandidateScreen extends StatelessWidget {
                               child: Container(
                                   child: CachedNetworkImage(
                                 imageUrl:
-                                    'http://voting.surabayawebtech.com/storage/image/${candidate.image}',
+                                    'https://voting.surabayawebtech.com/storage/image/${candidate.image}',
                                 width: innerHeight * 0.7,
                                 fit: BoxFit.fitWidth,
                               )),
@@ -95,7 +95,7 @@ class DetailCandidateScreen extends StatelessWidget {
                     children: [
                       ListTile(
                         title: Text(
-                          'Visi dan Misi',
+                          'Visi',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 20,
@@ -104,6 +104,20 @@ class DetailCandidateScreen extends StatelessWidget {
                         ),
                         subtitle: Text(
                           candidate.visi,
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
+                      ),
+                      ListTile(
+                        title: Text(
+                          'Misi',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                          candidate.misi,
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
                       )

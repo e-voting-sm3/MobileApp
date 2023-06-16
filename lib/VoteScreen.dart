@@ -49,7 +49,7 @@ class VoteScreen extends StatelessWidget {
                         CircleAvatar(
                           radius: 50.0,
                           backgroundImage: CachedNetworkImageProvider(
-                            'http://voting.surabayawebtech.com/storage/image/${candidate.image}',
+                            'https://voting.surabayawebtech.com/storage/image/${candidate.image}',
                           ),
                           backgroundColor: Colors.black,
                         ),
@@ -137,7 +137,7 @@ class VoteScreen extends StatelessWidget {
     };
 
     http.Response userResponse = await http.get(
-      Uri.parse('http://voting.surabayawebtech.com/api/auth/me'),
+      Uri.parse('https://voting.surabayawebtech.com/api/auth/me'),
       headers: headers,
     );
 
@@ -152,7 +152,7 @@ class VoteScreen extends StatelessWidget {
       };
 
       http.Response voteResponse = await http.post(
-        Uri.parse('http://voting.surabayawebtech.com/api/auth/votes'),
+        Uri.parse('https://voting.surabayawebtech.com/api/auth/votes'),
         headers: headers,
         body: json.encode({
           'voter_id': userId.toString(),
