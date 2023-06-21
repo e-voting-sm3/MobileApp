@@ -72,7 +72,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     };
 
     var response = await http.post(
-      Uri.parse('http://voting.surabayawebtech.com/api/auth/register'),
+      Uri.parse('https://voting.surabayawebtech.com/api/auth/register'),
       body: json.encode(body),
       headers: {'Content-Type': 'application/json'},
     );

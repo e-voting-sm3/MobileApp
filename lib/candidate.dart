@@ -7,8 +7,9 @@ class Candidate {
   final String name;
   final String image;
   final String visi;
+  final String misi;
 
-  Candidate(this.id, this.name, this.image, this.visi);
+  Candidate(this.id, this.name, this.image, this.visi, this.misi);
 }
 
 Future<List<Candidate>> fetchCandidates() async {
@@ -23,7 +24,7 @@ Future<List<Candidate>> fetchCandidates() async {
   };
 
   final response = await http.get(
-    Uri.parse('http://voting.surabayawebtech.com/api/auth/candidates'),
+    Uri.parse('https://voting.surabayawebtech.com/api/auth/candidates'),
     headers: headers,
   );
 
@@ -36,7 +37,8 @@ Future<List<Candidate>> fetchCandidates() async {
               jsonCandidate['id'].toString(),
               jsonCandidate['name'] as String,
               jsonCandidate['photo'] as String,
-              jsonCandidate['visi_misi'] as String,
+              jsonCandidate['visi'] as String,
+              jsonCandidate['misi'] as String,
             ))
         .toList();
   } else {

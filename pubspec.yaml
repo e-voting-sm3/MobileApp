@@ -42,6 +42,13 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/etov.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -64,7 +71,7 @@ flutter:
   assets:
     - assets/images/signup.jpg
     - assets/images/login2.jpg
-    - assets/images/person1.png
+    - assets/images/home2.png
     - assets/images/person2.png
     - assets/images/person3.png
     - assets/images/person5.png
@@ -106,6 +113,12 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+  # fonts:
+  # - family: Roboto
+  #   fonts:
+  #     - asset: fonts/Roboto-Regular.ttf
+  #     - asset: fonts/Roboto-Bold.ttf
+  #       weight: 700
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

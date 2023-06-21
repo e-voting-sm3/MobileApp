@@ -7,6 +7,7 @@ class MyHome extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 230, 230, 250), // Menambahkan background color
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(
@@ -15,36 +16,27 @@ class MyHome extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Text(
-                    "Home",
-                    style: TextStyle(
-                        color: Color(0xff7286D3),
-                        fontWeight: FontWeight.bold,
-                        fontSize: size.width * 0.08,
-                        letterSpacing: 0.5),
-                  ),
-                  Spacer(),
-                  Container(
-                    height: size.width * 0.12,
-                    width: size.width * 0.12,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/profile.png"),
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(50))),
+                  SizedBox(height: 100,),
+                  Expanded(
+                    child: Text(
+                      "Home",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Color(0xff5E64FD),
+                          fontWeight: FontWeight.bold,
+                          fontSize: size.width * 0.08,
+                          letterSpacing: 0.5),
+                    ),
                   ),
                 ],
               ),
-              SizedBox(
-                height: 20,
-              ),
+             
               Container(
                 // height: size.height / 4,
                 // width: size.width / 1.2,
                 height: 300,
                 width: 500,
-                child: Image.asset("assets/images/person1.png",
+                child: Image.asset("assets/images/home2.png",
                     fit: BoxFit.fitWidth),
               ),
               SizedBox(
@@ -115,13 +107,16 @@ class MyHome extends StatelessWidget {
                       child: Container(
                         child: Column(
                           children: [
+                            SizedBox(
+                              height: 5,
+                            ),
                             Row(
                               children: [
                                 Container(
                                   child: Image.asset(
                                     "assets/images/person3.png",
-                                    width: 80,
-                                    height: 71,
+                                    width: 81,
+                                    height: 68,
                                   ),
                                 ),
                                 SizedBox(
@@ -133,7 +128,7 @@ class MyHome extends StatelessWidget {
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w500,
-                                        height: 2.5,
+                                        height: 2,
                                         fontSize: 20),
                                   ),
                                 ),
