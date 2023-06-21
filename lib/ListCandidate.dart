@@ -1,9 +1,8 @@
-import 'package:list_tile/constansts.dart';
+import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'candidate.dart';
-import 'package:flutter/material.dart';
 import 'CandidateDetail.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class ListCandidate extends StatefulWidget {
   const ListCandidate({Key? key}) : super(key: key);
@@ -24,10 +23,13 @@ class _ListCandidateState extends State<ListCandidate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 230, 230, 250),
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Color(0xff5E64FD),
-        title: Text('List Candidate'),
+        backgroundColor: Color(0xFF5E64FD),
+        elevation: 0,
+        toolbarHeight: 70,
+        title: const Text('Candidates'),
         centerTitle: true,
       ),
       body: FutureBuilder<List<Candidate>>(
@@ -35,69 +37,109 @@ class _ListCandidateState extends State<ListCandidate> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final candidates = snapshot.data!;
-            return ListView.builder(
-              itemCount: candidates.length,
-              itemBuilder: (BuildContext context, int index) {
-                final candidate = candidates[index];
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color.fromARGB(255, 45, 44, 44).withOpacity(0.2),
-                        spreadRadius: 3,
-                        blurRadius: 5,
-                        offset: Offset(0, 3), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  padding: EdgeInsets.all(10),
-                  margin: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                  child: ListTile(
-                    title: Text(
-                      candidate.name,
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: kPrimaryColor,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                      candidate.visi,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 14, color: Color(0xDD696969)),
-                    ),
-                    trailing: Icon(
-                      Icons.arrow_forward_ios,
-                      color: kPrimaryLightColor,
-                    ),
-                    leading: Container(
-                      width: 80,
-                      height: 80,
-                      child: CircleAvatar(
-                        backgroundImage: CachedNetworkImageProvider(
-                          'http://voting.surabayawebtech.com/storage/image/${candidate.image}',
-                        ),
-                      ),
-                    ),
+            return Theme(
+              data: Theme.of(context).copyWith(
+                cardColor: Color(0xFF5E64FD),
+              ),
+              child: ListView.builder(
+                itemCount: candidates.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final candidate = candidates[index];
+                  return GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              DetailCandidateScreen(candidate: candidate),
-                        ),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => CandidateDetailScreen(candidate: candidate),
+                      //   ),
+                      // );
                     },
-                    tileColor: Colors.white,
-                    focusColor: Colors.white,
-                    hoverColor: Colors.white,
-                    selectedTileColor: Colors.white,
-                    selected: true,
-                  ),
-                );
-              },
+                    child: Card(
+                      elevation: 5,
+                      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(10),
+                            ),
+                            child: AspectRatio(
+                              aspectRatio: 1.9,
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    'https://voting.surabayawebtech.com/storage/image/${candidate.image}',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  candidate.name,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  candidate.visi,
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              DetailCandidateScreen(
+                                            candidate: candidate,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors.white,
+                                      onPrimary: Colors.indigo,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'Detail',
+                                      style: TextStyle(
+                                        color: Colors.indigo,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
             );
           } else if (snapshot.hasError) {
             return Center(

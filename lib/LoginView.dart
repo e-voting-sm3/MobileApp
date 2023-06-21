@@ -135,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
     var body = {'email': email, 'password': password};
 
     var response = await http.post(
-      Uri.parse('http://voting.surabayawebtech.com/api/auth/login'),
+      Uri.parse('https://voting.surabayawebtech.com/api/auth/login'),
       body: json.encode(body),
       headers: {'Content-Type': 'application/json'},
     );

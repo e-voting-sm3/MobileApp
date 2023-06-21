@@ -11,21 +11,14 @@ class VoteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     appBar: AppBar(
+      appBar: AppBar(
         backgroundColor: Color(0xff5E64FD),
         title: Text('Vote'),
         centerTitle: true,
       ),
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Color(0xff5E64FD),
-              Colors.indigo.shade50,
-            ],
-          ),
+          color: Color.fromARGB(255, 230, 230, 250),
         ),
         child: FutureBuilder<List<Candidate>>(
           future: fetchCandidates(),
@@ -33,81 +26,133 @@ class VoteScreen extends StatelessWidget {
             if (snapshot.hasData) {
               final candidates = snapshot.data!;
               return ListView.builder(
-                padding: EdgeInsets.only(top: 20),
+                padding: EdgeInsets.only(bottom: 20),
                 itemCount: candidates.length,
                 itemBuilder: (BuildContext context, int index) {
                   final candidate = candidates[index];
                   return Card(
-                    color: Colors.grey[100],
+                    margin: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                    color: Color.fromARGB(255, 255, 255, 255),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(5),
-                      ),
+                      borderRadius: BorderRadius.circular(5),
                     ),
-                    child: Column(
+                    child: Stack(
                       children: <Widget>[
-                        const Padding(padding: EdgeInsets.only(top: 15)),
-                        CircleAvatar(
-                          radius: 50.0,
-                          backgroundImage: CachedNetworkImageProvider(
-                            'http://voting.surabayawebtech.com/storage/image/${candidate.image}',
-                          ),
-                          backgroundColor: Colors.black,
-                        ),
-                        const SizedBox(height: 18),
-                        Text(
-                          candidate.id,
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Text(
-                          candidate.name,
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const SizedBox(height: 10.0),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.red,
-                          ),
-                          onPressed: () async {
-                            // ignore: use_build_context_synchronously
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: const Text("Konfirmasi"),
-                                  content: Text(
-                                      "Apakah Anda yakin ingin memilih ${candidate.name}?"),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text("Batal"),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Stack(
+                              alignment: Alignment.topLeft,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(5),
+                                    topRight: Radius.circular(5),
+                                  ),
+                                  child: Image.network(
+                                    'https://voting.surabayawebtech.com/storage/image/${candidate.image}',
+                                    width: 315, // Specify the desired width
+                                    height: 200, // Specify the desired height
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 10,
+                                  left: 10,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Color(0xff5E64FD),
+                                      shape: BoxShape.circle,
                                     ),
-                                    TextButton(
-                                      onPressed: () async {
-                                        await voteCandidate(context,
-                                            int.parse(candidate.id)); //
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text("Vote"),
+                                    padding: const EdgeInsets.all(6),
+                                    child: Text(
+                                      candidate.id,
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
                                     ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                          child: const Text('Vote'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 18),
+                            Text(
+                              candidate.name,
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                            const SizedBox(height: 8.0),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 112, 69, 198),
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(5),
+                                    bottomRight: Radius.circular(5),
+                                  ),
+                                ),
+                                width: double.infinity,
+                                child: TextButton(
+                                  onPressed: () async {
+                                    // ignore: use_build_context_synchronously
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text("Konfirmasi"),
+                                          content: Text(
+                                              "Apakah Anda yakin ingin memilih ${candidate.name}?"),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: const Text(
+                                                "Batal",
+                                                style: const TextStyle(
+                                                  color: Colors.red,
+                                                ),
+                                              ),
+                                            ),
+                                            TextButton(
+                                              onPressed: () async {
+                                                await voteCandidate(context,
+                                                    int.parse(candidate.id));
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: const Text(
+                                                "Vote",
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color.fromARGB(
+                                                      255, 112, 69, 198),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: const Text(
+                                    'Vote',
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 10),
                       ],
                     ),
                   );
@@ -128,6 +173,9 @@ class VoteScreen extends StatelessWidget {
     );
   }
 
+
+
+
   Future<void> voteCandidate(BuildContext context, int candidateId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
@@ -138,7 +186,7 @@ class VoteScreen extends StatelessWidget {
     };
 
     http.Response userResponse = await http.get(
-      Uri.parse('http://voting.surabayawebtech.com/api/auth/me'),
+      Uri.parse('https://voting.surabayawebtech.com/api/auth/me'),
       headers: headers,
     );
 
@@ -153,7 +201,7 @@ class VoteScreen extends StatelessWidget {
       };
 
       http.Response voteResponse = await http.post(
-        Uri.parse('http://voting.surabayawebtech.com/api/auth/votes'),
+        Uri.parse('https://voting.surabayawebtech.com/api/auth/votes'),
         headers: headers,
         body: json.encode({
           'voter_id': userId.toString(),

@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 
 class VotingResultPage extends StatefulWidget {
   @override
@@ -29,7 +28,7 @@ class _VotingResultPageState extends State<VotingResultPage> {
   Future<void> fetchData() async {
     try {
       final response = await http.get(
-        Uri.parse('http://voting.surabayawebtech.com/api/auth/votes'),
+        Uri.parse('https://voting.surabayawebtech.com/api/auth/votes'),
         headers: {'Authorization': 'Bearer $token'},
       );
       final responseData = json.decode(response.body);
@@ -70,76 +69,113 @@ class _VotingResultPageState extends State<VotingResultPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Color.fromARGB(255, 230, 230, 250),
         appBar: AppBar(
-            backgroundColor: Color(0xff5E64FD),
-            title: Text('Hasil Voting'),
-            centerTitle: true,
+          backgroundColor: Color(0xff5E64FD),
+          title: Text('Result Vote'),
+          centerTitle: true,
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              resultCircular(),
+              resultLinear(),
+            ],
           ),
-        body: Column(
-          children: [
-            Flexible(child: resultCircular(), flex: 1),
-            Flexible(child: resultLinear(), flex: 2),
-          ],
         ),
       ),
     );
   }
 
   Widget resultCircular() {
-    if (candidates.isEmpty) {
-      return Center(child: CircularProgressIndicator());
-    } else {
-      // Mengurutkan kandidat berdasarkan persentase secara menurun
-      candidates.sort((a, b) => b['percentage'].compareTo(a['percentage']));
+  if (candidates.isEmpty) {
+    return Center(child: CircularProgressIndicator());
+  } else {
+    // Mengurutkan kandidat berdasarkan persentase secara menurun
+    candidates.sort((a, b) => b['percentage'].compareTo(a['percentage']));
 
-      final topCandidate = candidates[0];
-      final percentage = double.parse(topCandidate['percentage']) / 100;
+    final topCandidate = candidates[0];
+    final percentage = double.parse(topCandidate['percentage']) / 100;
+    final isTopCandidate = candidates.length > 1 && percentage > 0;
 
-      return Column(
-        children: [
-          SizedBox(height: 15),
-          Container(
-            child: CircularPercentIndicator(
-              radius: 110.0,
-              lineWidth: 15.0,
-              percent: percentage,
-              animation: true,
-              animationDuration: 1500,
-              center: new Text(
-                '${(percentage * 100).toStringAsFixed(0)}%',
-                style: TextStyle(fontSize: 20),
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 10),
+      child: Card(
+        elevation: 3,
+        shape: CircleBorder(),
+        child: Container(
+          padding: EdgeInsets.all(20),
+          child: CircularPercentIndicator(
+            radius: 110.0,
+            lineWidth: 15.0,
+            percent: percentage,
+            animation: true,
+            animationDuration: 1500,
+            center: new Text(
+              '${(percentage * 100).toStringAsFixed(0)}%',
+              style: TextStyle(
+                fontSize: 20,
+                color: isTopCandidate ? Colors.pink : Colors.black,
               ),
-              footer: new Text(
-                'Hasil voting',
-                style: TextStyle(fontSize: 20, color: Colors.deepPurpleAccent),
-              ),
-              progressColor: Colors.indigo[400],
             ),
+            progressColor: isTopCandidate ? Colors.pink : Colors.black,
           ),
-        ],
-      );
-    }
+        ),
+      ),
+    );
   }
+}
+
 
   Widget resultLinear() {
-    return ListView.builder(
+  return Padding(
+    padding: EdgeInsets.symmetric(horizontal: 10),
+    child: ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
       itemCount: candidates.length,
       itemBuilder: (context, index) {
         final candidate = candidates[index];
         final name = candidate['name'];
         final percentage = double.parse(candidate['percentage']) / 100;
+        final isTopCandidate = index == 0;
 
-        return ListTile(
-          leading: Text(
-            name,
-            style: TextStyle(fontSize: 20),
-          ),
-          trailing: Text(
-            '${(percentage * 100).toStringAsFixed(0)}%',
-            style: TextStyle(fontSize: 20, color: Colors.deepPurpleAccent),
+        return Card(
+          elevation: 2,
+          margin: EdgeInsets.symmetric(vertical: 5),
+          child: ListTile(
+            leading: isTopCandidate
+                ? RichText(
+                    text: TextSpan(
+                      text: name,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.pink,
+                      ),
+                    ),
+                  )
+                : Text(
+                    name,
+                    style: TextStyle(fontSize: 20),
+                  ),
+            trailing: Text(
+              '${(percentage * 100).toStringAsFixed(0)}%',
+              style: isTopCandidate
+                  ? TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.pink,
+                    )
+                  : TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+            ),
           ),
         );
       },
-    );
-  }
+    ),
+  );
+}
 }
